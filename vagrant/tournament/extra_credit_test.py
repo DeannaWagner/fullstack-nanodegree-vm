@@ -1,6 +1,6 @@
-#!/usr/bin/env python
-#
-# Test cases for tournament.py
+# !/usr/bin/env python
+# Project2 Tournament Results copyright 2015 Deanna M. Wagner.
+# Test cases for extra credit in tournament.py
 
 
 from tournament import *
@@ -37,7 +37,6 @@ def testRematches():
             "Players should only meet in one match.")
     print """1. After one match, players with one win are paired, avoiding.
            rematches between players!"""
-#    db.close()
 
 
 if __name__ == '__main__':
