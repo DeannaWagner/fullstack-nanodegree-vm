@@ -3,8 +3,10 @@
 # Test cases for tournament.py, which were provided by Udacity.
 #
 
-from tournament import *
 
+from tournament_extra import *
+
+#, and make sure delete tournaments is where it needs to be in all functions
 def testDeleteMatches():
     deleteMatches()
     print "1. Old matches can be deleted."
@@ -13,13 +15,14 @@ def testDeleteMatches():
 def testDelete():
     deleteMatches()
     deletePlayers()
-    print "2. Player records can be deleted."
+    deleteTournaments()
+    print "2. All records can be deleted."
 
 
 def testCount():
-    deleteMatches()
-    deletePlayers()
-    c = countPlayers()
+    tournament_id = registerTournament("2015 Biffy's Wrestling Extraordinaire")
+    print "tid=%d" % tournament_id
+    c = countPlayers(tournament_id)
     if c == '0':
         raise TypeError(
             "countPlayers() should return numeric zero, not string '0'.")
@@ -31,8 +34,10 @@ def testCount():
 def testRegister():
     deleteMatches()
     deletePlayers()
-    registerPlayer("Chandra Nalaar")
-    c = countPlayers()
+    deleteTournaments()
+    tournament_id = registerTournament("2015 UT Dallas Chess Invitational")
+    registerPlayer("Chandra Nalaar", tournament_id)
+    c = countPlayers(tournament_id)
     if c != 1:
         raise ValueError(
             "After one player registers, countPlayers() should be 1.")
@@ -42,17 +47,27 @@ def testRegister():
 def testRegisterCountDelete():
     deleteMatches()
     deletePlayers()
-    registerPlayer("Markov Chaney")
-    registerPlayer("Joe Malik")
-    registerPlayer("Mao Tsu-hsi")
-    registerPlayer("Atlanta Hope")
-    c = countPlayers()
-    if c != 4:
+    tournament_id = registerTournament("2015 UT Dallas Chess Invitational")
+    registerPlayer("Markov Chaney", tournament_id)
+    registerPlayer("Joe Malik", tournament_id)
+    registerPlayer("Mao Tsu-hsi", tournament_id)
+    registerPlayer("Atlanta Hope", tournament_id)
+    tournament_id2 = registerTournament("2015 Ft. Worth TKD Invitational")
+    registerPlayer("Chong Jeong", tournament_id2)
+    registerPlayer("Inseom Kim", tournament_id2)
+    registerPlayer("Won Park", tournament_id2)
+    registerPlayer("Roy Kurban", tournament_id2)
+    registerPlayer("Stephen Lopez", tournament_id2)
+    registerPlayer("Erik Farfan", tournament_id2)
+    c1 = countPlayers(tournament_id)
+    c2 = countPlayers(tournament_id2)
+    if c1 != 4 or c2 != 6:
         raise ValueError(
-            "After registering four players, countPlayers should be 4.")
+            "After registering players, countPlayers was incorrect.")
     deletePlayers()
-    c = countPlayers()
-    if c != 0:
+    c1 = countPlayers(tournament_id)
+    c2 = countPlayers(tournament_id2)
+    if c1 != 0 or c2 != 0:
         raise ValueError("After deleting, countPlayers should return zero.")
     print "5. Players can be registered and deleted."
 
@@ -60,9 +75,10 @@ def testRegisterCountDelete():
 def testStandingsBeforeMatches():
     deleteMatches()
     deletePlayers()
-    registerPlayer("Melpomene Murray")
-    registerPlayer("Randy Schwartz")
-    standings = playerStandings()
+    tournament_id = registerTournament("2015 UT Dallas Chess Invitational")
+    registerPlayer("Melpomene Murray", tournament_id)
+    registerPlayer("Randy Schwartz", tournament_id)
+    standings = playerStandings(tournament_id)
     if len(standings) < 2:
         raise ValueError("Players should appear in playerStandings even before "
                          "they have played any matches.")
@@ -83,15 +99,16 @@ def testStandingsBeforeMatches():
 def testReportMatches():
     deleteMatches()
     deletePlayers()
-    registerPlayer("Bruno Walton")
-    registerPlayer("Boots O'Neal")
-    registerPlayer("Cathy Burton")
-    registerPlayer("Diane Grant")
-    standings = playerStandings()
+    tournament_id= registerTournament("2015 UT Dallas Chess Invitational")
+    registerPlayer("Bruno Walton", tournament_id)
+    registerPlayer("Boots O'Neal", tournament_id)
+    registerPlayer("Cathy Burton", tournament_id)
+    registerPlayer("Diane Grant", tournament_id)
+    standings = playerStandings(tournament_id)
     [id1, id2, id3, id4] = [row[0] for row in standings]
-    reportMatch(id1, id2)
-    reportMatch(id3, id4)
-    standings = playerStandings()
+    reportMatch(id1, id2, tournament_id)
+    reportMatch(id3, id4, tournament_id)
+    standings = playerStandings(tournament_id)
     for (i, n, w, m) in standings:
         if m != 1:
             raise ValueError("Each player should have one match recorded.")
@@ -102,18 +119,16 @@ def testReportMatches():
     print "7. After a match, players have updated standings."
 
 
-def testPairings():
-    deleteMatches()
-    deletePlayers()
-    registerPlayer("Twilight Sparkle")
-    registerPlayer("Fluttershy")
-    registerPlayer("Applejack")
-    registerPlayer("Pinkie Pie")
-    standings = playerStandings()
+def testPairings(tournament_id):
+    registerPlayer("Twilight Sparkle", tournament_id)
+    registerPlayer("Fluttershy", tournament_id)
+    registerPlayer("Applejack", tournament_id)
+    registerPlayer("Pinkie Pie", tournament_id)
+    standings = playerStandings(tournament_id)
     [id1, id2, id3, id4] = [row[0] for row in standings]
-    reportMatch(id1, id2)
-    reportMatch(id3, id4)
-    pairings = swissPairings()
+    reportMatch(id1, id2, tournament_id)
+    reportMatch(id3, id4, tournament_id)
+    pairings = swissPairings(tournament_id)
     if len(pairings) != 2:
         raise ValueError(
             "For four players, swissPairings should return two pairs.")
@@ -125,7 +140,7 @@ def testPairings():
             "After one match, players with one win should be paired.")
     print "8. After one match, players with one win are paired."
 
-
+#TODO test pairings with 2 differents tournaments, and make sure delete tourn
 if __name__ == '__main__':
     testDeleteMatches()
     testDelete()
@@ -134,5 +149,11 @@ if __name__ == '__main__':
     testRegisterCountDelete()
     testStandingsBeforeMatches()
     testReportMatches()
-    testPairings()
+    deleteMatches()
+    deletePlayers()
+    deleteTournaments()
+    tournament_id = registerTournament("2015 Queens of Bridge Takedown")
+    testPairings(tournament_id)
+    tournament_id = registerTournament("2015 Gaming World Championship")
+    testPairings(tournament_id)
     print "Success!  All tests pass!"

@@ -29,39 +29,76 @@ def deletePlayers():
     """Remove all the player records from the database."""
     db = connect()
     cursor = db.cursor()
+    cursor.execute("DELETE FROM tournaments_players;")
     cursor.execute("DELETE FROM players;")
     db.commit()
     db.close()
 
 
-def countPlayers():
-    """Returns the number of players currently registered."""
+def deleteTournaments():
+    """Remove all the tournament records from the database."""
     db = connect()
     cursor = db.cursor()
-    cursor.execute("SELECT count(*) FROM players;")
-    sum_player = cursor.fetchone()
-    db.close()
-    return int(sum_player[0])
-
-
-def registerPlayer(name):
-    """Adds a player to the tournament database.
-
-    The database assigns a unique serial id number for the player.  (This
-    should be handled by your SQL database schema, not in your Python code.)
-
-    Args:
-      name: the player's full name (need not be unique).
-    """
-    db = connect()
-    cursor = db.cursor()
-    bleach.clean(name)
-    cursor.execute("INSERT INTO players (name) VALUES (%s);", (name, ) )
+    cursor.execute("DELETE FROM tournaments;")
     db.commit()
     db.close()
 
 
-def playerStandings():
+def countPlayers(tournament_id):
+    """Returns the number of players currently registered."""
+    db = connect()
+    cursor = db.cursor()
+    cursor.execute("""
+        SELECT player_count FROM vcount
+        WHERE tournament_id = %s;""", (tournament_id,))
+    sum_player = cursor.fetchone()
+    if sum_player == None:
+        sum_player = [0]
+    db.close()
+    print sum_player
+    return int(sum_player[0])
+
+
+def registerTournament(name):
+    """Adds a tournament to the tournament database.
+
+    Args:
+      name: the tournament's name (need not be unique).
+    """
+    db = connect()
+    cursor = db.cursor()
+    bleach.clean(name)
+    cursor.execute("""
+        INSERT INTO tournaments (name) VALUES (%s) RETURNING id;""", (name, ))
+    tournament_id = cursor.fetchone()[0];
+    db.commit()
+    db.close()
+    return tournament_id
+
+
+def registerPlayer(name, tournament_id):
+    """Adds a player to the tournament database, associating them with the
+    given tournament.
+
+    Args:
+      name: the player's full name (need not be unique).
+      tournament_id: the id of the tournament in which player will play.
+    """
+    db = connect()
+    cursor = db.cursor()
+    bleach.clean(name)
+    cursor.execute("""
+        INSERT INTO players (name) VALUES (%s) RETURNING id;""", (name,))
+    player_id = cursor.fetchone()[0];
+    cursor.execute("""
+        INSERT INTO tournaments_players (tournament_id, player_id) 
+        VALUES (%s, %s);""", (tournament_id, player_id))
+    db.commit()
+    db.close()
+    return player_id
+
+
+def playerStandings(tournament_id):
     """Returns a list of the players and their win records, sorted by wins.
 
     The first entry in the list should be the player in first place, or the 
@@ -76,13 +113,29 @@ def playerStandings():
     """
     db = connect()
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM vstandings;")
+    cursor.execute("""
+        SELECT players.id,
+        players.name, 
+        (SELECT count(*)
+            FROM matches 
+            WHERE players.id = matches.winner_id AND tournament_id = %s) 
+                AS wins, 
+        (SELECT count(*)
+            FROM matches 
+            WHERE (players.id = matches.winner_id
+              OR players.id = matches.loser_id) AND tournament_id = %s ) 
+                AS matches_played
+        FROM tournaments_players JOIN players ON id = player_id
+        WHERE tournament_id = %s
+        ORDER BY wins DESC;
+        """, (tournament_id, tournament_id, tournament_id)) 
     standings = cursor.fetchall()
     db.close()
     return standings
 
 
-def reportMatch(winner, loser):
+#TODO add tounament_id stuff
+def reportMatch(winner, loser, tournament_id):
     """Records the outcome of a single match between two players.
 
     Args:
@@ -92,13 +145,13 @@ def reportMatch(winner, loser):
     db = connect()
     cursor = db.cursor()
     cursor.execute("""
-        INSERT INTO matches (winner_id, loser_id) 
-        VALUES ( %s, %s );""", (winner, loser) )
+        INSERT INTO matches (winner_id, loser_id, tournament_id) 
+        VALUES ( %s, %s, %s );""", (winner, loser, tournament_id) )
     db.commit()
     db.close()
 
 
-def swissPairings():
+def swissPairings(tournament_id):
     """Returns a list of pairs of players for the next round of a match.
 
     Assuming that there are an even number of players registered, each player
@@ -113,7 +166,7 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
-    standings = playerStandings()
+    standings = playerStandings(tournament_id)
     pairings = []
     p_id = 0 #first item in tuple
     name = 1 #second item in tuple
