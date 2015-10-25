@@ -21,7 +21,6 @@ def testDelete():
 
 def testCount():
     tournament_id = registerTournament("2015 Biffy's Wrestling Extraordinaire")
-    print "tid=%d" % tournament_id
     c = countPlayers(tournament_id)
     if c == '0':
         raise TypeError(

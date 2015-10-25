@@ -55,7 +55,6 @@ def countPlayers(tournament_id):
     if sum_player == None:
         sum_player = [0]
     db.close()
-    print sum_player
     return int(sum_player[0])
 
 

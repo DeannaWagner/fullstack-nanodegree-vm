@@ -1,9 +1,6 @@
 Project2: Tournament Results Application - Deanna M. Wagner, October 22, 2015
 ================================
 
-Required Libraries, Files and Dependencies
------------------------------------
-
 In this project, Python and SQL knowledge is used to build a database-backed Python module to run a game tournament. The database schema and code to implement an API for the project were completed.
 
 Required Libraries, Files and Dependencies
@@ -15,7 +12,9 @@ The Tournament Results Application requires:
 3.  tournament.sql
 4.  tournament.py
 5.  tournament_test.py
-6.  extra_credit_test.py
+6.  tournament_extra.sql
+7.  tournament_extra.py
+8.  tournament_test_extra.py
 
 A virtual machine is available and contains all needed applications, explained below.
 
@@ -32,7 +31,7 @@ To run the application using the virtual machine (VM):
     https://github.com/DeannaWagner/fullstack-nanodegree-vm  	
 2.  Navigate to the tournament directory from the VM, go to pqsl prompt and run tournament.sql.
 3.  Quit psql prompt and Run tournament_test.py 
-4.  Run extra_credit_test.py 
+4.  Run tournament_test_extra.py 
 5.  View files by opening them in any editor
 
 
@@ -42,7 +41,7 @@ This project includes some features that exceed specifications.
 
 1. VIEW vstandings was created to remove the complex query with two subqueries from the playerStandings() and place it in the sql file.
 
-2. This application prevents the rematch of players in a given tournament, for all the rounds that might be played, in accordance with the number of registered players (log 2 n), player rematches are prevented to the extent possible.  View vno_rematches was created 
+2. The extra credit program files handle multiple tournaments.  (In future releases: This application prevents the rematch of players in a given tournament, for all the rounds that might be played, in accordance with the number of registered players (log 2 n), player rematches are prevented to the extent possible.  View vno_rematches was created.)
 
 
 Miscellaneous
