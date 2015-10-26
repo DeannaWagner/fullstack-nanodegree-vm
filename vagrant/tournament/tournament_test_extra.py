@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 #
-# Test cases for tournament.py, which were provided by Udacity.
+# Project 2: Tournament Results Application by 2015 Deanna M. Wagner.
+# Test cases for tournament_extra.py, which were modified from the original
+# test module that was provided by Udacity for testing the main program
+# functionality.
 #
 
 
 from tournament_extra import *
 
-#, and make sure delete tournaments is where it needs to be in all functions
+
 def testDeleteMatches():
     deleteMatches()
     print "1. Old matches can be deleted."
@@ -79,8 +82,8 @@ def testStandingsBeforeMatches():
     registerPlayer("Randy Schwartz", tournament_id)
     standings = playerStandings(tournament_id)
     if len(standings) < 2:
-        raise ValueError("Players should appear in playerStandings even before "
-                         "they have played any matches.")
+        raise ValueError("Players should appear in playerStandings even before"
+                         " they have played any matches.")
     elif len(standings) > 2:
         raise ValueError("Only registered players should appear in standings.")
     if len(standings[0]) != 4:
@@ -139,7 +142,7 @@ def testPairings(tournament_id):
             "After one match, players with one win should be paired.")
     print "8. After one match, players with one win are paired."
 
-#TODO test pairings with 2 differents tournaments, and make sure delete tourn
+
 if __name__ == '__main__':
     testDeleteMatches()
     testDelete()

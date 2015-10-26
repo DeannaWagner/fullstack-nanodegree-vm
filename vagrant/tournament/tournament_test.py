@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 #
-# Test cases for tournament.py, which were provided by Udacity.
+# Project 2: Tournament Results Application by 2015 Deanna M. Wagner.
+# Test cases for tournament.py, which were provided by Udacity for testing the
+# main program functionality.
 #
 
+
 from tournament import *
+
 
 def testDeleteMatches():
     deleteMatches()

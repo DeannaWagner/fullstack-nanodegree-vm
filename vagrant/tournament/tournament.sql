@@ -19,20 +19,20 @@ CREATE TABLE matches (
     id serial PRIMARY KEY NOT NULL,
 	winner_id integer REFERENCES players(id),
 	loser_id integer REFERENCES players(id) );
-	
---View v_standings queries each item which is to be returned by playerStandings()
+
+--View v_standings queries each item which is returned by playerStandings()
 CREATE VIEW vstandings AS
     SELECT players.id,
-    players.name, 
+    players.name,
     (SELECT count(*)
         FROM matches 
         WHERE players.id = matches.winner_id) 
-            AS wins, 
+            AS wins,
     (SELECT count(*)
         FROM matches 
         WHERE players.id = matches.winner_id OR players.id = matches.loser_id) 
             AS matches_played
-    FROM players 
+    FROM players
     ORDER BY wins DESC;
 
 \q

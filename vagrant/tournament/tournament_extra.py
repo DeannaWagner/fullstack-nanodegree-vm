@@ -1,9 +1,9 @@
 # !/usr/bin/env python
 #
 # Project 2: Tournament Results Application is copyright 2015 Deanna M. Wagner.
-# tournament.py is an implementation of a Swiss-system tournament, which takes
-# players, pairs them for matches, reports matches and standings. Players and
-# matches can be deleted to run a new tournament.
+# tournament_extra.py is an implementation of a Swiss-system tournament, which
+# takesplayers, pairs them for matches, reports matches and standings. Players
+# and matches can be distinguished by tournament in this extra credit version.
 #
 
 
@@ -45,9 +45,18 @@ def deleteTournaments():
 
 
 def countPlayers(tournament_id):
-    """Returns the number of players currently registered."""
+    """Returns the number of players registered in a given tournament.
+
+    Args:
+      tournament_id: the id of the tournament in which player will play.
+
+    Returns:
+      int(sum_player[0]) which represents current numer of players registered
+        in a given tournament
+    """
     db = connect()
     cursor = db.cursor()
+    bleach.clean(tournament_id)
     cursor.execute("""
         SELECT player_count FROM vcount
         WHERE tournament_id = %s;""", (tournament_id,))
@@ -59,10 +68,13 @@ def countPlayers(tournament_id):
 
 
 def registerTournament(name):
-    """Adds a tournament to the tournament database.
+    """Adds a tournament to the tournament database and returns the id.
 
     Args:
       name: the tournament's name (need not be unique).
+
+    Returns:
+      tournament_id: the tournament's unique id (assigned by the database)
     """
     db = connect()
     cursor = db.cursor()
@@ -77,11 +89,14 @@ def registerTournament(name):
 
 def registerPlayer(name, tournament_id):
     """Adds a player to the tournament database, associating them with the
-    given tournament.
+    given tournament, and returns the player_id
 
     Args:
       name: the player's full name (need not be unique).
-      tournament_id: the id of the tournament in which player will play.
+        tournament_id: the id of the tournament in which player will play.
+
+    Returns:
+      player_id: the player's unique id (assigned by the database)
     """
     db = connect()
     cursor = db.cursor()
@@ -89,6 +104,8 @@ def registerPlayer(name, tournament_id):
     cursor.execute("""
         INSERT INTO players (name) VALUES (%s) RETURNING id;""", (name,))
     player_id = cursor.fetchone()[0];
+    bleach.clean(tournament_id)
+    bleach.clean(player_id)
     cursor.execute("""
         INSERT INTO tournaments_players (tournament_id, player_id) 
         VALUES (%s, %s);""", (tournament_id, player_id))
@@ -98,13 +115,17 @@ def registerPlayer(name, tournament_id):
 
 
 def playerStandings(tournament_id):
-    """Returns a list of the players and their win records, sorted by wins.
+    """Returns a list of the players and their win records, sorted by wins
+       only for a given tournament.
 
     The first entry in the list should be the player in first place, or the 
     player tied for first place if there is currently a tie.
 
+    Args:
+      tournament_id: the id of the tournament in which player will play.
+
     Returns:
-      A list of tuples, each of which contains (id, name, wins, matches):
+      standings, a list of tuples, each containing (id, name, wins, matches):
         id: the player's unique id (assigned by the database)
         name: the player's full name (as registered)
         wins: the number of matches the player has won
@@ -112,13 +133,14 @@ def playerStandings(tournament_id):
     """
     db = connect()
     cursor = db.cursor()
+    bleach.clean(tournament_id)
     cursor.execute("""
         SELECT players.id,
-        players.name, 
+        players.name,
         (SELECT count(*)
-            FROM matches 
+            FROM matches
             WHERE players.id = matches.winner_id AND tournament_id = %s) 
-                AS wins, 
+                AS wins,
         (SELECT count(*)
             FROM matches 
             WHERE (players.id = matches.winner_id
@@ -127,25 +149,28 @@ def playerStandings(tournament_id):
         FROM tournaments_players JOIN players ON id = player_id
         WHERE tournament_id = %s
         ORDER BY wins DESC;
-        """, (tournament_id, tournament_id, tournament_id)) 
+        """, (tournament_id, tournament_id, tournament_id))
     standings = cursor.fetchall()
     db.close()
     return standings
 
 
-#TODO add tounament_id stuff
 def reportMatch(winner, loser, tournament_id):
     """Records the outcome of a single match between two players.
 
     Args:
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
+      tournament_id: the id of the tournament in which player participated.
     """
     db = connect()
     cursor = db.cursor()
+    bleach.clean(winner)
+    bleach.clean(loser)
+    bleach.clean(tournament_id)
     cursor.execute("""
-        INSERT INTO matches (winner_id, loser_id, tournament_id) 
-        VALUES ( %s, %s, %s );""", (winner, loser, tournament_id) )
+        INSERT INTO matches (winner_id, loser_id, tournament_id)
+        VALUES ( %s, %s, %s );""", (winner, loser, tournament_id))
     db.commit()
     db.close()
 
@@ -157,6 +182,9 @@ def swissPairings(tournament_id):
     appears exactly once in the pairings.  Each player is paired with another
     player with an equal or nearly-equal win record, that is, a player adjacent
     to him or her in the standings.
+
+    Args:
+      tournament_id: the id of the tournament in which player will play.
 
     Returns:
       A list of tuples, each of which contains (id1, name1, id2, name2)
