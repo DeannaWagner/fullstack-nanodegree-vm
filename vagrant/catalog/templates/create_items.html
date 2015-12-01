@@ -1,0 +1,17 @@
+<!-- This is the page to create items of Catalog Items Application, Copyright 
+     2015 by Deanna M. Wagner. -->
+
+{% extends "super.html" %}
+{% block content %}
+  <h1>Create New Exercise Item</h1>
+    <form action="{{category_url}}/create/" method='POST'>
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+      <p>Exercise Name:<br>
+        <input type="text" size="80" name="name" placeholder="Max 80 character name"></p>
+      <p>Exercise Description:<br>
+        <textarea name="description" rows="5" cols="60" placeholder="Max 300 character description"></textarea></p>
+      <p>Exercise Photo URL:<br>
+        <input type="url" size="80" name="image_link" placeholder="Max 80 character url"></p>
+      <p><input type="submit" value="Submit">&nbsp;<input type="reset" value="Reset"></p>
+    </form>
+{% endblock content %}

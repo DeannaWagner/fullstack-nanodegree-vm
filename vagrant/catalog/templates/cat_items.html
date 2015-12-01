@@ -1,0 +1,21 @@
+<!-- This is the page to create items in a catalog of Catalog Items Application,
+     Copyright 2015 by Deanna M. Wagner. -->
+
+{% extends "super.html" %}
+{% block content %}
+  {% if "google_user_id" in session %}
+  <h3><a href="{{category_url}}/create/">Create New Item</a></h3>
+  {% endif %}
+  <h1>{{category_name}}</h1>
+    <div>
+    {% for cat_item in category %}
+      <h2>{{cat_item.name}}</h2>
+        <p>{{cat_item.description}}</p>
+        <p><img src="{{cat_item.image_link}}" alt="{{cat_item.name}}"></p>
+        {% if "google_user_id" in session and session["google_user_id"] == cat_item.creator_id %}
+        <p><a href="{{category_url}}/{{cat_item.id}}/edit/">Edit Item</a>
+          <a href="{{category_url}}/{{cat_item.id}}/delete/">Delete Item</a></p>
+        {% endif %}
+      {% endfor %}
+    </div>
+{% endblock content %}
