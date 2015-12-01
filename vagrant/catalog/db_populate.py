@@ -49,7 +49,7 @@ walk = Exercise(name='Walk',
 db_session.add(walk)
 soccer = Exercise(name='Soccer',
                 description='15-45 min moderate to high intensity soccer play', 
-                image_link='/static/images/soccer.png',
+                image_link='/static/images/Soccer.png',
                 category_id=get_cat('/cardio').id,
                 creator_id=1,
                 category=get_cat('/cardio'))
