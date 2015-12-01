@@ -30,10 +30,8 @@ from dict2xml import dict2xml as xmlify
 
 app = Flask(__name__, template_folder='templates')
 
-engine = create_engine('postgresql://fcuser:uhbVCXdr5!Q@localhost:5432/' \
+engine = create_engine('postgresql://fcuser:mPo75!QsCr89K@localhost:5432/' \
                        'fitcollection')
-#engine = create_engine('postgresql://fcuser:mPo75!QsCr89K@localhost:5432/' \
-#                       'fitcollection')
 Base.metadata.bind = engine
 
 

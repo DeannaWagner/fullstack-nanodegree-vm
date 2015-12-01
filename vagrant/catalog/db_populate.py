@@ -11,10 +11,8 @@ from sqlalchemy.orm import sessionmaker
 from db_setup import Base, Category, Exercise
 
 
-engine = create_engine('postgresql://fcuser:uhbVCXdr5!Q@localhost:5432/' \
+engine = create_engine('postgresql://fcuser:mPo75!QsCr89K@localhost:5432/' \
                        'fitcollection')
-#engine = create_engine('postgresql://fcuser:mPo75!QsCr89K@localhost:5432/' \
-#                       'fitcollection')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)

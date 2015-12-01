@@ -59,9 +59,7 @@ class Exercise(Base):
             }
 
 if __name__ == '__main__':
-    engine = create_engine('postgresql://fcuser:uhbVCXdr5!Q@localhost:5432/' \
+    engine = create_engine('postgresql://fcuser:mPo75!QsCr89K@localhost:5432/' \
                            'fitcollection')
-    #engine = create_engine('postgresql://fcuser:mPo75!QsCr89K@localhost:5432/' \
-    #                       'fitcollection')
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
