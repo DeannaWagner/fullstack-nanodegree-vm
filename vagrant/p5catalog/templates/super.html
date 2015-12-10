@@ -1,0 +1,116 @@
+<!-- Catalog Items Application is Copyright 2015 by Deanna M. Wagner.
+     This file, super html, contains the core content that other pages use, the 
+     logic for Google user authentification and other minor Javascript and jQuery. -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/FC.css" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Aclonica" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Architects+Daughter" />
+    <meta name="google-signin-client_id" content="462353067619-htn9r5tpot8rt74920q4akn4m03al3km.apps.googleusercontent.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FitCollection</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+  </head>
+  <body>
+    <div class="banner"></div>
+    <div class="g-signin2" data-onsuccess="onSignIn" onclick="signInClick();"></div>
+    <div class="g-signout2"><a href="/" onclick="signOut();"><img src="/static/images/google-signout.png" alt="google sign out"></a>
+    </div>
+    <nav class="leftbar">
+      <ul>
+        <li><a href="/">Home</a></li>
+        {% for category in categories %}
+        <li><a href="{{category.url}}">{{category.name}}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+    <div class="content">
+    {% if "google_user_id" in session %}
+      <div class="username"><p></p></div>
+    {% endif %}
+  {% block content %}
+  {% endblock content %}
+    <div class="copyright"><p>© Copyright 2015<br>Deanna Wagner</p></div>
+    </div>
+  <script>
+    // onSignIn allows third party authentification, set visibility on google
+    //  buttons depending on login state, and add login sentence if logged in
+    function onSignIn(googleUser) {
+	  var profile = googleUser.getBasicProfile();
+	  console.log('ID: ' + profile.getId()); //Just for debugging
+	  console.log('Name: ' + profile.getName());
+	  var userName = profile.getName();
+      $(".username").text('You are signed in as ' + userName);
+	  console.log('Image URL: ' + profile.getImageUrl());
+	  console.log('Email: ' + profile.getEmail());
+	  var id_token = googleUser.getAuthResponse().id_token;
+	  var xhr = new XMLHttpRequest();
+	  xhr.open('POST', '/tokensignin/');
+	  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	  xhr.setRequestHeader('X-CSRFToken', '{{csrf_token()}}');
+	  xhr.onload = function() {
+	    console.log('Signed in as: ' + xhr.responseText);
+	    signinButton();
+	  };
+	  xhr.send('idtoken=' + id_token + '&_csrf_token={{csrf_token()}}');
+	}
+    // signInClick reloads the page if they were not logged in.
+    function signInClick() {
+	    if (getCookie("loggedin") != "true") {
+	  	      setCookie("loggedin","true");
+		      location.reload();
+	    }
+    }
+    // signOut allows third party log out, sets button visibility and reloads
+    // the page .
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+   	    var xhr = new XMLHttpRequest();
+  	    xhr.open('POST', '/tokensignout/');
+	    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	    xhr.setRequestHeader('X-CSRFToken', '{{csrf_token()}}');
+	    xhr.onload = function() {
+	      console.log('Signed out: ' + xhr.responseText);
+	      signoutButton();
+	      setCookie("loggedin","false");
+	      location.reload();
+	    };
+	    xhr.send('idtoken={{session["google_user_id"]}}&_csrf_token={{csrf_token()}}');
+	  });
+    }
+    function signinButton(){
+        $('.g-signin2').hide();
+        $('.g-signout2').show();
+    }
+    function signoutButton(){
+        $('.g-signin2').show();
+        $('.g-signout2').hide();
+    }
+    function setCookie(cname, cvalue) {
+        document.cookie = cname + "=" + cvalue + "; path=/";
+    }
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+        }
+        return "";
+    }
+    $(document).ready(function() {
+//    	var loggedin = getCookie("loggedin");
+//	    if (loggedin == "false") {
+	    	signoutButton();
+//		}
+    });
+  </script>
+  </body>
+</html>

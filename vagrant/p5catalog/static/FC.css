@@ -1,0 +1,173 @@
+/* This style sheet Catalog Items Application is Copyright 2015 Deanna Wagner.
+   All content was developed by the author to create a basic presentation. */
+
+body {
+    margin: 0px;
+    padding: 0px;
+	z-index: 1;}
+
+h1 {
+	font: 800 130% 'Architects Daughter', cursive;
+	color: #000082;
+	text-align: left;
+	padding: 0ex 1em;}
+
+h2 {
+	font: 600 110% 'Architects Daughter', cursive;
+	color: #000082;
+	text-align: left;
+	padding: 0ex 1em;}
+
+h3  {
+	font12: 600 80% Garamond, Georgia, serif;
+	color: black;
+	text-align: center;
+	line-height: 100%;
+	padding: 0ex 2em;}
+
+.banner {
+    position: fixed;
+    width: auto;
+    height: 100px;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: auto;
+    padding: 0px 0px 0px 0px;
+    background-color: #4040c6; 
+    background-image:url('images/FCBanner.png'); 
+    background-repeat: no-repeat;
+    background-position: 0% 0%;
+    z-index: 20;}
+
+a:link, a:visited, a:hover, a:active {
+	text-decoration: none;
+	padding: 0ex 0em; }
+
+.g-signin2 {
+    position: fixed;
+    width: 130px;
+    height: 40px;
+    top: 5px;
+    left: auto;
+    right: 0px;
+    bottom: 45px;
+    padding: 0px 0px 0px 0px;
+    background-color: transparent; 
+    z-index: 200;}
+
+.g-signout2 {
+    position: fixed;
+    width: 130px;
+    height: 40px;
+    top: 55px;
+    left: auto;
+    right: 0px;
+    bottom: 95px;
+    padding: 0px 0px 0px 0px;
+    background-color: transparent; 
+    z-index: 200;}
+
+.leftbar {
+    position: fixed;
+    width: 11em;
+    height: auto;
+    top: 100px;
+    right: auto;
+    bottom: 0px;
+    left: 0;
+	background-color: #4040c6;
+	z-index: 1;}
+
+nav * {
+	margin: 0px;
+	padding: 0px;
+	z-index: 15;}
+
+nav {
+	width: 100%;
+	float: left;
+	font: 700 105% Aclonica, sans-serif;
+	background-color: #4040c6;
+	top: 100px;
+	left: 0px;}
+
+nav ul {
+	width: 100%;
+	z-index: 16;}
+
+nav ul li {
+	position: relative;
+	width: 100%;
+	clear: left;
+	height: 7ex;
+	list-style-type: none;
+	z-index: 55;}
+
+nav * a:link, nav * a:visited {
+	display: block;
+	padding: 2ex 2em;
+	text-decoration: none;
+	color: #fff;
+	z-index:10;}
+
+nav * a:hover, nav * a:active  {color: #000;}
+
+.username {
+	text-align: right;
+	margin: 0ex 1.5em;
+	font: italic 500 90%/120%'Lucida Bright', serif;}
+
+.content {
+    position: absolute;
+    width: auto;
+    height: auto;
+    top: 120px;
+    bottom: auto;
+    left: 11em;
+    right: 0%;
+	z-index: 1;}
+
+.content p {
+    font: 400 100% Arial, sans-serif;
+	text-align: justify;
+	padding: 0ex 1em;}
+
+.content a:link, a:visited {
+	color: #4d3ac1;
+	text-decoration: none;
+	border-bottom: 1px solid #4d3ac1;}
+
+.content a:hover, a:active {
+	color: #213b2b;
+	text-decoration: none;
+	border-bottom: 1px solid #4d3ac1;}
+
+ul {list-style: none;}
+
+.imageRight {float: right; padding: 4px 8px;}
+
+.imageLeft {float: left; padding: 4px 8px;}
+
+.center {text-align: center;}
+
+.fineprint {font-size: 80%; color: #fff; margin-left: 1em;}
+
+.copyright {
+	position: fixed;
+	top: auto;
+	right: auto;
+	bottom: 0%;
+	left: 0%;}
+
+.copyright p {
+	clear: both;
+	text-align: center;
+	font: italic 400 70%/120%'Lucida Bright', serif;
+	color: #fff;
+	padding: 0.25ex 0.2ex;
+	margin: 1ex 1em;}
+
+.copyright a:link, a:visited {text-decoration: underline;}
+
+.copyright a:hover, a:active {text-decoration:none;}

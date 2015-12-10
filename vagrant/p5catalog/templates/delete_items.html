@@ -1,0 +1,11 @@
+<!-- This is the page to delete items of Catalog Items Application, Copyright
+     2015 by Deanna M. Wagner. -->
+
+{% extends "super.html" %}
+{% block content %}
+  <h1>Delete exercise item {{exercise.name}}?</h1>
+    <form action="{{category_url}}/{{exercise_id}}/delete/"   method='POST'>
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+      <p><input type='submit' value='Submit'></p>
+    </form>
+{% endblock content %}
