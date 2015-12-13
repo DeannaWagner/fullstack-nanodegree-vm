@@ -96,7 +96,7 @@ The complete URL to your hosted web application http://ec2-52-25-243-158.us-west
  *   \</Directory>
  *  \</VirtualHost> 
 
-*Restart Apache with the sudo apache2ctl restart command.
+Restart Apache with the sudo apache2ctl restart command.
 Create a /var/www/catalog/catalog.wsgi file and add the following:
 *	import sys
 *	import logging
@@ -135,15 +135,14 @@ Create a /var/www/catalog/catalog.wsgi file and add the following:
      `sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local`,
      `sudo nano /etc/fail2ban/jail.local`
      `sudo fail2ban-client status`
-Status
-|- Number of jail:      1
-`- Jail list:           ssh
+*  Status
+*  |- Number of jail:      1
+*  `- Jail list:           ssh
 
 #####Cron scripts have been included to automatically manage package updates.
 *  `sudo bash`, `crontab -e`, select option 2 from prompt, enter:
   `0 5 * * * /root/upgrade.py` to configure cron, `nano /root/upgrade.py`
-Added commands found from link below and adjusted to update and then upgrade
-[cron script commands](http://stackoverflow.com/questions/89228/calling-an-external-command-in-python)
+Added commands found from [cron script commands link](http://stackoverflow.com/questions/89228/calling-an-external-command-in-python)and adjusted to update and then upgrade
 `chmod 775 /root/upgrade.py`
 
 
@@ -157,7 +156,7 @@ Added commands found from link below and adjusted to update and then upgrade
 Some credit is rightfully due and offered to the supporting courses instructors
 and Udacians in the discussion forums for help remembering and learning new
 linux commands.  These pages were instrumental in configuration of PostgreSQL &
-Fail2Ban
+Fail2Ban:
 [Ubuntu PostgreSQL](https://help.ubuntu.com/community/PostgreSQL), 
 [Digital Ocean PostgreSQL](https://www.digitalocean.com/community/tutorials/how-to-use-roles-and-manage-grant-permissions-in-postgresql-on-a-vps--2), 
 [Digital Ocean Fail2Ban](https://www.digitalocean.com/community/tutorials/how-to-protect-an-apache-server-with-fail2ban-on-ubuntu-14-04)
