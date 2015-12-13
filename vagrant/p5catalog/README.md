@@ -18,7 +18,7 @@ category in order one or more exercise choices.
 
 ##Connection Information
 The server IP address is 52.25.243.158 and the SSH port is 2200.  
-The complete URL to your hosted web application http://ec2-52-25-243-158.us-west-2.compute.amazonaws.com/.  
+The complete URL to the hosted web application http://ec2-52-25-243-158.us-west-2.compute.amazonaws.com/.  
 
 ##Required Libraries, Files and Dependencies
 
@@ -66,7 +66,7 @@ The complete URL to your hosted web application http://ec2-52-25-243-158.us-west
     as user pw, copy contents of public key, ssh into server,
     `nano /home/grader/.ssh/authorized_keys`, paste contents of public key,
     exit and save file.  `chmod 644 /home/grader/.ssh/authorized_keys`
-    exit server and login as user deanna for all subsequent tasks
+    exit server and login as user deanna
     
 #####Update & Upgrade
 *   Update and upgrade all currently installed packages with `sudo apt-get update` and
@@ -83,29 +83,9 @@ The complete URL to your hosted web application http://ec2-52-25-243-158.us-west
 #####Install & Configure Apache
 *  Install Apache `sudo apt-get install apache2` to handle mod-wsgi with
   `apt-get install libapache2-mod-wsgi` and editing
-  /etc/apache2/sites-enabled/000-default.conf:
- * \<VirtualHost *:80>
- *   ...
- *   WSGIDaemonProcess catalog user=deanna group=deanna threads=5
- *   WSGIScriptAlias / /var/www/catalog/catalog.wsgi
- *   <Directory /var/www/catalog>
- *       WSGIProcessGroup catalog
- *       WSGIApplicationGroup %{GLOBAL}
- *       Order deny,allow
- *       Allow from all
- *   \</Directory>
- *  \</VirtualHost> 
-
-Restart Apache with the sudo apache2ctl restart command.
-Create a /var/www/catalog/catalog.wsgi file and add the following:
-*	import sys
-*	import logging
-*	logging.basicConfig(stream=sys.stderr)
-*	sys.path.insert(0, '/var/www/catalog/')
-*	from catalog import app as application
-*	application.secret_key = '<secret key>'
-*	application.debug = True
-*	csrf = SeaSurf(application)
+  /etc/apache2/sites-enabled/000-default.conf.  See file for details.
+* Restart Apache with the sudo apache2ctl restart command.
+  Create a /var/www/catalog/catalog.wsgi file.  See file for details.
 
 #####Install & Configure PostgreSQL
 *  Install PostgreSQL with `sudo apt-get install postgresql`
@@ -142,7 +122,7 @@ Create a /var/www/catalog/catalog.wsgi file and add the following:
 #####Cron scripts have been included to automatically manage package updates.
 *  `sudo bash`, `crontab -e`, select option 2 from prompt, enter:
   `0 5 * * * /root/upgrade.py` to configure cron, `nano /root/upgrade.py`
-Added commands found from [cron script commands link](http://stackoverflow.com/questions/89228/calling-an-external-command-in-python)and adjusted to update and then upgrade
+Added commands found from [cron script commands link](http://stackoverflow.com/questions/89228/calling-an-external-command-in-python) and adjusted to update and then upgrade
 `chmod 775 /root/upgrade.py`
 
 
