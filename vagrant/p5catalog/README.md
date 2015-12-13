@@ -84,8 +84,8 @@ The complete URL to your hosted web application http://ec2-52-25-243-158.us-west
 *  Install Apache `sudo apt-get install apache2` to handle mod-wsgi with
   `apt-get install libapache2-mod-wsgi` and editing
   /etc/apache2/sites-enabled/000-default.conf:
- * <VirtualHost *:80>
- *   
+ * \<VirtualHost *:80>
+ *   ...
  *   WSGIDaemonProcess catalog user=deanna group=deanna threads=5
  *   WSGIScriptAlias / /var/www/catalog/catalog.wsgi
  *   <Directory /var/www/catalog>
@@ -93,8 +93,8 @@ The complete URL to your hosted web application http://ec2-52-25-243-158.us-west
  *       WSGIApplicationGroup %{GLOBAL}
  *       Order deny,allow
  *       Allow from all
- *   \<\/Directory>
- *  \<\/VirtualHost> 
+ *   \</Directory>
+ *  \</VirtualHost> 
 
 Restart Apache with the sudo apache2ctl restart command.
 Create a /var/www/catalog/catalog.wsgi file and add the following:
