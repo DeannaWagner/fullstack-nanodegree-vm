@@ -96,9 +96,8 @@ The complete URL to your hosted web application http://ec2-52-25-243-158.us-west
  *   \</Directory>
  *  \</VirtualHost> 
 
-Restart Apache with the sudo apache2ctl restart command.
+*Restart Apache with the sudo apache2ctl restart command.
 Create a /var/www/catalog/catalog.wsgi file and add the following:
-
 *	import sys
 *	import logging
 *	logging.basicConfig(stream=sys.stderr)
@@ -132,10 +131,10 @@ Create a /var/www/catalog/catalog.wsgi file and add the following:
 #####Firewall has been configured to monitor for brute force attacks
 *  The firewall has been configured to monitor for repeat unsuccessful login
     attempts and appropriately bans attackers; 
-     sudo apt-get install fail2ban, looked at config file
-     sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
- sudo nano /etc/fail2ban/jail.local
- sudo fail2ban-client status
+     `sudo apt-get install fail2ban`, looked at config file
+     `sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local`,
+     `sudo nano /etc/fail2ban/jail.local`
+     `sudo fail2ban-client status`
 Status
 |- Number of jail:      1
 `- Jail list:           ssh
@@ -144,7 +143,7 @@ Status
 *  `sudo bash`, `crontab -e`, select option 2 from prompt, enter:
   `0 5 * * * /root/upgrade.py` to configure cron, `nano /root/upgrade.py`
 Added commands found from link below and adjusted to update and then upgrade
-http://stackoverflow.com/questions/89228/calling-an-external-command-in-python
+[cron script commands](http://stackoverflow.com/questions/89228/calling-an-external-command-in-python)
 `chmod 775 /root/upgrade.py`
 
 
@@ -159,9 +158,9 @@ Some credit is rightfully due and offered to the supporting courses instructors
 and Udacians in the discussion forums for help remembering and learning new
 linux commands.  These pages were instrumental in configuration of PostgreSQL &
 Fail2Ban
-https://help.ubuntu.com/community/PostgreSQL
-https://www.digitalocean.com/community/tutorials/how-to-use-roles-and-manage-grant-permissions-in-postgresql-on-a-vps--2
-https://www.digitalocean.com/community/tutorials/how-to-protect-an-apache-server-with-fail2ban-on-ubuntu-14-04
+[Ubuntu PostgreSQL](https://help.ubuntu.com/community/PostgreSQL)
+[Digital Ocean PostgreSQL](https://www.digitalocean.com/community/tutorials/how-to-use-roles-and-manage-grant-permissions-in-postgresql-on-a-vps--2)
+[Digital Ocean Fail2Ban](https://www.digitalocean.com/community/tutorials/how-to-protect-an-apache-server-with-fail2ban-on-ubuntu-14-04)
 
 ##License
 
