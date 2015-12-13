@@ -17,7 +17,7 @@ web app.  Visitors might compile an exercise program by choosing from each
 category in order one or more exercise choices.
 
 ##Connection Information
-The server IP address is 52.25.243.158 and the SSH port is 2200
+The server IP address is 52.25.243.158 and the SSH port is 2200.  
 The complete URL to your hosted web application http://ec2-52-25-243-158.us-west-2.compute.amazonaws.com/.  
 
 ##Required Libraries, Files and Dependencies
@@ -73,7 +73,7 @@ The complete URL to your hosted web application http://ec2-52-25-243-158.us-west
     `sudo apt-get upgrade`.
 *   Configure the local timezone to UTC with `sudo timedatectl set-timezone UTC`.
 
-#####Configure Uncomplicated Firewall (ufw)& SSH
+#####Configure Uncomplicated Firewall (ufw) & SSH
 *   `default deny incoming`, `default allow outgoing`, `allow ssh`,
     `allow 2200/tcp`, `allow www`, `allow ntp`, `ufw enable`,
     `nano /etc/ssh/sshd_config` to edit port and disallow password authorization,
