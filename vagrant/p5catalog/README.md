@@ -158,8 +158,8 @@ Some credit is rightfully due and offered to the supporting courses instructors
 and Udacians in the discussion forums for help remembering and learning new
 linux commands.  These pages were instrumental in configuration of PostgreSQL &
 Fail2Ban
-[Ubuntu PostgreSQL](https://help.ubuntu.com/community/PostgreSQL)
-[Digital Ocean PostgreSQL](https://www.digitalocean.com/community/tutorials/how-to-use-roles-and-manage-grant-permissions-in-postgresql-on-a-vps--2)
+[Ubuntu PostgreSQL](https://help.ubuntu.com/community/PostgreSQL), 
+[Digital Ocean PostgreSQL](https://www.digitalocean.com/community/tutorials/how-to-use-roles-and-manage-grant-permissions-in-postgresql-on-a-vps--2), 
 [Digital Ocean Fail2Ban](https://www.digitalocean.com/community/tutorials/how-to-protect-an-apache-server-with-fail2ban-on-ubuntu-14-04)
 
 ##License
